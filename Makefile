@@ -1,15 +1,9 @@
-VENV=.venv
-PYTHON=$(VENV)/Scripts/python.exe
-PIP=$(VENV)/Scripts/pip.exe
+docker_build:
+	docker build -t hello-world-printer .
 
-deps:
-	$(PIP) install -r requirements.txt; \
-	$(PIP) install -r test_requirements.txt
-lint:
-	$(PYTHON) -m flake8 hello_world test
-test:
-	$(PYTHON) -m pytest
-run:
-	$(PYTHON) -m pytest
+docker_run: docker_build
+docker run \
+		--name hello-world-printer-dev \
+	-p 5000:5000 \
+	-d hello-world-printer
 
-.PHONY: deps lint test run
